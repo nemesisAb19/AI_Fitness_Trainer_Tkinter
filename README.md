@@ -53,27 +53,38 @@ AI_Fitness_Trainer_Tkinter/
 
 ---
 
+## 🎮 How to Run the Game
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/nemesisAb19/Flappy-Bird.git
+
+2. Navigate to the project folder:
+   cd Flappy-Bird
+
+3. Install dependencies:
+   pip install pygame
+
+
 ## How to Run the Project
 
-### Step 1: Clone the Repository
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/nemesisAb19/Flappy-Bird.git
+   cd AI_Fitness_Trainer
 
-```bash
-git clone https://github.com/YOUR_USERNAME/AI_Fitness_Trainer.git
-cd AI_Fitness_Trainer
+2. **Create a Virtual Environment (Optional but Recommended)**
+   python -m venv .venv
+   ### Activate it:
+   a. On Windows:
+   .venv\Scripts\activate
+   b. On Mac/Linux:
+   source .venv/bin/activate
 
-### Step 2: Create a Virtual Environment (Optional but Recommended)
-python -m venv .venv
-# Activate it:
-# On Windows:
-.venv\Scripts\activate
-# On Mac/Linux:
-source .venv/bin/activate
+3. Install Dependencies
+   pip install -r requirements.txt
 
-### Step 3: Install Dependencies
-pip install -r requirements.txt
-
-### Step 4: Run the App
-python main.py
+4. Run the App
+   python main.py
 
 
 ## 📦 Dependencies
