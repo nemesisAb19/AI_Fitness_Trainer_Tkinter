@@ -6,38 +6,71 @@
 
 ## 📁 Project Structure
 AI_Fitness_Trainer_Tkinter/
+
 ├── .venv/
+
 ├── assets/
+
 │   ├── bicep_curl.gif
+
 │   ├── cross-button.png
+
 │   └── befit-logo-white.png
+
 │   ├── next-icon.png
+
 │   ├── prev-icon.png
+
 │   └── start-button.png
+
 ├── modules/
+
 │   ├── __pycache__/
+
 │   ├── __init__.py
+
 │   ├── bicep_check.py
+
 │   ├── PoseModule.py
+
 │   ├── ExercisesModule.py
+
 │   ├── AudioCommSys.py
+
 │   ├── face_detection.py
+
 │   ├── camera.py
+
 │   └── camera_check.py
+
 ├── frames/
+
 │   ├── __pycache__/
+
 │   ├── __init__.py
+
 │   ├── BicepCurlSettingsFrame.py	
+
 │   ├── ExerciseFrame.py
+
 │   ├── WorkoutsFrame.py
+
 │   ├── NextPageFrame.py
+
 │   └── StreamingFrame.py
+
 ├── utils/
+
 │   ├── __pycache__/
+
 │   └── TransitionManager.py
+
 ├── main.py
+
 ├── README.md
+
 ├── requirements.txt
+
 └── .venv/
 
 ---
@@ -61,17 +94,25 @@ AI_Fitness_Trainer_Tkinter/
    cd AI_Fitness_Trainer
 
 2. **Create a Virtual Environment (Optional but Recommended)**
+   
    python -m venv .venv
+   
    **Activate it:**
+   
    a. On Windows:
+   
    .venv\Scripts\activate
+   
    b. On Mac/Linux:
+   
    source .venv/bin/activate
 
-3. Install Dependencies
+4. Install Dependencies
+   
    pip install -r requirements.txt
 
-4. Run the App
+6. Run the App
+   
    python main.py
 
 
