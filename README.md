@@ -62,7 +62,7 @@ AI_Fitness_Trainer_Tkinter/
 
 2. **Create a Virtual Environment (Optional but Recommended)**
    python -m venv .venv
-   ### Activate it:
+   **Activate it:**
    a. On Windows:
    .venv\Scripts\activate
    b. On Mac/Linux:
