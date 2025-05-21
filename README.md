@@ -91,7 +91,7 @@ AI_Fitness_Trainer_Tkinter/
 1. **Clone the repository:**
    ```bash
    https://github.com/nemesisAb19/AI_Fitness_Trainer_Tkinter.git
-   cd AI_Fitness_Trainer
+   cd AI_Fitness_Trainer_Tkinter
 
 2. **Create a Virtual Environment (Optional but Recommended)**
    
@@ -130,5 +130,5 @@ Main packages used:
 I just wanted to let you know that pull requests are welcome. For major changes, please open an issue first to discuss.
 
 
-##📃 License
+## 📃 License
 This project is open-source and free to use.
