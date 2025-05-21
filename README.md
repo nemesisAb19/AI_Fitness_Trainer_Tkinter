@@ -90,7 +90,7 @@ AI_Fitness_Trainer_Tkinter/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/nemesisAb19/Flappy-Bird.git
+   https://github.com/nemesisAb19/AI_Fitness_Trainer_Tkinter.git
    cd AI_Fitness_Trainer
 
 2. **Create a Virtual Environment (Optional but Recommended)**
