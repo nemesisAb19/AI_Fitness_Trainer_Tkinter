@@ -15,23 +15,6 @@ class Utilities:
             return (0, 255, 255)        # Light cyan
         return (0, 205, 205)            # Default fallback
 
-    # def draw_performance_bar(self, img, per):
-    #     h, w = img.shape[:2]
-    #     bar_width = int(w * 0.025)
-    #     margin = int(w * 0.015)
-
-    #     x1, x2 = w - bar_width - margin, w - margin
-    #     top, bottom = int(h * 0.15), int(h * 0.90)
-    #     fill = int(np.interp(per, (0, 100), (bottom, top)))
-    #     color = self.get_performance_bar_color(per)
-
-    #     # Bar background outline
-    #     cv2.rectangle(img, (x1, top), (x2, bottom), color, 3)
-    #     # Filled portion
-    #     cv2.rectangle(img, (x1, fill), (x2, bottom), color, cv2.FILLED)
-    #     # Percentage label
-    #     cv2.putText(img, f"{int(per)}%", (x1 - 10, top - 10), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-
     def draw_performance_bar(self, img, per, bar_pos, color, count):
         h, w = img.shape[:2]
         bar_width = int(w * 0.03)
