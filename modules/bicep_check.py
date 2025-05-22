@@ -1,5 +1,5 @@
 import cv2
-from modules.ExercisesModule import simulate_target_exercies
+from modules.ExercisesModule import SimulateTargetExercises
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -8,7 +8,7 @@ def main():
         print("❌ Error: Could not open webcam.")
         return
 
-    bicep_curl = simulate_target_exercies()
+    bicep_curl = SimulateTargetExercises()
 
     while True:
         success, frame = cap.read()
