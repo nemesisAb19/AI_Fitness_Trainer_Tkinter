@@ -124,3 +124,75 @@ class SimulateTargetExercises:
             cv2.destroyAllWindows()
         except cv2.error as e:
             print(f"cv2.destroyAllWindows() failed: {e}")
+
+
+    #SQUATS
+    def squats(self):
+        utils = Utilities()
+        cap = cv2.VideoCapture(0)
+        detector = pm.posture_detector()
+        speaker = AudioFeedbackSystem()
+
+        for current_set in range(1, self.sets + 1):
+            print(f"Set {current_set}/{self.sets}")
+            count, direction = 0, 0
+            total_reps = self.reps * self.difficulty_level
+
+            while count < total_reps:
+                success, img = cap.read()
+                if not success or img is None:
+                    print("❌ Could not read from webcam.")
+                    break
+
+                img = detector.find_person(img, draw=False)
+                landmarks = detector.find_landmarks(img, draw=False)
+
+                if landmarks:
+                    # Calculate leg angles
+                    right_leg_angle = detector.find_angle(img, 24, 26, 28)
+                    left_leg_angle = detector.find_angle(img, 23, 25, 27)
+
+                    # Use average angle for more stability
+                    avg_leg_angle = (left_leg_angle + right_leg_angle) / 2
+
+                    per = np.interp(avg_leg_angle, (190, 240), (0, 100))
+                    bar_pos = np.interp(per, (0, 100), (650, 100))
+                    color = utils.get_performance_bar_color(per)
+
+                    if per in [0, 100]:
+                        color = (0, 255, 0)
+                        rep_data = utils.repetition_counter(per, count, direction)
+                        count, direction = rep_data["count"], rep_data["direction"]
+
+                        if rep_data["count"] > self.count:
+                            self.count = rep_data["count"]
+                            speaker.say(f"{self.count}")
+
+                    utils.display_rep_count(img, count, total_reps)
+                    utils.draw_performance_bar(img, per, bar_pos, color, count)
+
+                yield utils._yield_image_frame(img)
+
+            print(f"✅ Completed Set {current_set}")
+
+            if current_set < self.sets:
+                rest_start = time.time()
+                while time.time() - rest_start < self.rest_time:
+                    rest_img = np.zeros((720, 1280, 3), dtype=np.uint8)
+                    cv2.putText(
+                        rest_img,
+                        f"Rest: {int(self.rest_time - (time.time() - rest_start))}s",
+                        (500, 360),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        2,
+                        (0, 255, 255),
+                        4
+                    )
+                    yield utils._yield_image_frame(rest_img)
+
+        cap.release()
+        try:
+            cv2.destroyAllWindows()
+        except cv2.error as e:
+            print(f"cv2.destroyAllWindows() failed: {e}")
+

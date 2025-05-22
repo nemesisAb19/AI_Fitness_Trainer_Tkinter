@@ -2,7 +2,6 @@ import tkinter as tk
 from PIL import Image, ImageTk, ImageSequence
 import cv2
 import numpy as np
-import os
 from tkinter import messagebox
 from datetime import datetime
 
@@ -35,12 +34,8 @@ class StreamingFrame(tk.Frame):
         back_img = Image.open("assets/prev-icon.png").resize((40, 30))
         self.back_icon = ImageTk.PhotoImage(back_img)
         back_btn = tk.Label(control_panel, image=self.back_icon, bg="#1e1e1e", cursor="hand2")
-        back_btn.pack(side="left", padx=10)        
+        back_btn.pack(side="left", padx=10)
         back_btn.bind("<Button-1>", lambda e: controller.show_frame(BicepCurlSettingsFrame))
-
-        # def debug_navigation(self, controller):
-        #     print("Back button clicked. Navigating to BicepCurlSettingsFrame.")
-        #     controller.show_frame(BicepCurlSettingsFrame)
 
         # Fullscreen Button
         fullscreen_btn = tk.Button(control_panel, text="🖥️ Fullscreen", font=("Arial", 11), command=self.toggle_video_fullscreen)
@@ -51,59 +46,112 @@ class StreamingFrame(tk.Frame):
         self.record_btn.pack(side="left", padx=10)
 
         # === GIF ===
-        gif = Image.open("assets/bicep_curl.gif")
-        self.gif_frames = [ImageTk.PhotoImage(frame.copy().convert("RGBA")) for frame in ImageSequence.Iterator(gif)]
         self.gif_label = tk.Label(self, bg="#121212")
         self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
-        self.current_gif_frame = 0
-        self.update_gif()
 
         # === Tips Below GIF ===
-        tips_text = (
-            "💪 Bicep Curl Form Tips:\n"
-            "- Keep elbows close to your torso.\n"
-            "- Use full range of motion.\n"
-            "- Avoid swinging your body.\n"
-            "- Controlled movement only.\n"
-            "- Exhale up, inhale down."
-        )
         self.tips_label = tk.Label(
-            self, text=tips_text, font=("Arial", 12), fg="#ffffff", bg="#1e1e1e",
+            self, text="", font=("Arial", 12), fg="#ffffff", bg="#1e1e1e",
             justify="left", anchor="nw", padx=20, pady=10, wraplength=300
         )
         self.tips_label.grid(row=2, column=1, sticky="nsew", padx=20, pady=(0, 20))
 
+    def set_exercise(self, generator_func, gif_path, tips_text, exercise_type):
+        """
+        Set the exercise layout, GIF, and tips dynamically based on the exercise type.
+        """
+        # Clear the current layout
+        self.clear_layout()
+
+        # Set the stream generator
+        self.stream_generator = generator_func()
+
+        # Load the appropriate GIF
+        gif = Image.open(gif_path)
+        self.gif_frames = [ImageTk.PhotoImage(frame.copy().convert("RGBA")) for frame in ImageSequence.Iterator(gif)]
+        self.current_gif_frame = 0
+        self.update_gif()
+
+        # Update the layout based on the exercise type
+        if exercise_type == "bicep_curls":
+            self.setup_bicep_curl_layout(tips_text)
+        elif exercise_type == "squats":
+            self.setup_squats_layout(tips_text)
+
+        # Start the stream
+        self.update_stream()
+
+    def clear_layout(self):
+        """
+        Clear all widgets from the layout to prepare for a new exercise layout.
+        """
+        for widget in self.winfo_children():
+            widget.grid_forget()
+            widget.pack_forget()
+
+    def setup_bicep_curl_layout(self, tips_text):
+        """
+        Set up the layout for the bicep curls exercise.
+        """
+        # Video feed
+        self.video_container.grid(row=0, column=0, sticky='nsew', padx=20, pady=(20, 5))
+        self.video_label.pack(expand=True, fill="both")
+
+        # GIF
+        self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
+
+        # Tips
+        self.tips_label.config(text=tips_text)
+        self.tips_label.grid(row=2, column=1, sticky="nsew", padx=20, pady=(0, 20))
+
+    def setup_squats_layout(self, tips_text):
+        """
+        Set up the layout for the squats exercise.
+        """
+        # Video feed
+        self.video_container.grid(row=0, column=0, sticky='nsew', padx=20, pady=(20, 5))
+        self.video_label.pack(expand=True, fill="both")
+
+        # GIF
+        self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
+
+        # Tips
+        self.tips_label.config(text=tips_text)
+        self.tips_label.grid(row=2, column=1, sticky="nsew", padx=20, pady=(0, 20))
+
     def toggle_video_fullscreen(self):
+        """
+        Toggle fullscreen mode for the video feed.
+        """
         if not self.video_fullscreen:
-            # === ENTER FULLSCREEN ===
+            # Enter fullscreen
             self.gif_label.grid_remove()
             self.tips_label.grid_remove()
 
             self.video_label.pack_forget()
             self.video_label.pack(expand=True, fill="both", padx=0, pady=0)
 
-            # Expand video across the whole width
             self.video_container.grid_forget()
             self.video_container.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=0, pady=0)
 
             self.video_fullscreen = True
         else:
-            # === EXIT FULLSCREEN: Restore full layout ===
+            # Exit fullscreen
             self.video_label.pack_forget()
             self.video_label.pack(expand=True, fill="both")
 
-            # Restore original video grid layout
             self.video_container.grid_forget()
             self.video_container.grid(row=0, column=0, sticky='nsew', padx=20, pady=(20, 5))
 
-            # Restore GIF and tips
             self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
             self.tips_label.grid(row=2, column=1, sticky="nsew", padx=20, pady=(0, 20))
 
             self.video_fullscreen = False
 
-
     def toggle_recording(self):
+        """
+        Toggle recording of the video feed.
+        """
         self.recording = not self.recording
         if self.recording:
             filename = datetime.now().strftime("recording_%Y%m%d_%H%M%S.avi")
@@ -118,11 +166,10 @@ class StreamingFrame(tk.Frame):
             self.record_btn.config(text="⏺️ Record")
             messagebox.showinfo("Recording Stopped", "Recording saved!")
 
-    def set_exercise(self, generator_func):
-        self.stream_generator = generator_func()
-        self.update_stream()
-
     def update_stream(self):
+        """
+        Update the video stream in the video feed.
+        """
         if self.stream_generator:
             try:
                 frame_bytes = next(self.stream_generator)
@@ -151,6 +198,9 @@ class StreamingFrame(tk.Frame):
             print("Stream generator is not set. Please set it using set_exercise.")
 
     def update_gif(self):
+        """
+        Update the GIF animation in the GIF label.
+        """
         self.gif_label.configure(image=self.gif_frames[self.current_gif_frame])
         self.current_gif_frame = (self.current_gif_frame + 1) % len(self.gif_frames)
         self.after(100, self.update_gif)

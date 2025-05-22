@@ -37,7 +37,7 @@ class WorkoutsFrame(tk.Frame):
 
         # Exercises list
         self.exercises = [
-            "Bicep Curl", "Squat", "Shoulder Press",
+            "Bicep Curl", "Squats", "Shoulder Press",
             "Push-Ups", "Mountain Climber", "Skipping",
             "Pull Ups", "Hip Thrust", "Tricep Dips"
         ]
@@ -107,8 +107,14 @@ class WorkoutsFrame(tk.Frame):
             card.bind("<Enter>", on_enter)
             card.bind("<Leave>", on_leave)
 
+            # if name.lower() == "bicep curl":
+            #     card.bind("<Button-1>", lambda e: self.controller.show_frame(BicepCurlSettingsFrame, transition="slide-right"))
+
+            # Bind actions for specific exercises
             if name.lower() == "bicep curl":
-                card.bind("<Button-1>", lambda e: self.controller.show_frame(BicepCurlSettingsFrame, transition="slide-right"))
+                card.bind("<Button-1>", lambda e: self.start_exercise("bicep_curls"))
+            elif name.lower() == "squats":
+                card.bind("<Button-1>", lambda e: self.start_exercise("squats"))
 
             self.card_widgets.append(card)
 
@@ -116,6 +122,14 @@ class WorkoutsFrame(tk.Frame):
             if col >= max_cols:
                 row += 1
                 col = 0
+
+    def start_exercise(self, exercise_type):
+        # Set the exercise type in BicepCurlSettingsFrame
+        bicep_curl_settings_frame = self.controller.frames[BicepCurlSettingsFrame]
+        bicep_curl_settings_frame.exercise_type = exercise_type
+
+        # Navigate to BicepCurlSettingsFrame
+        self.controller.show_frame(BicepCurlSettingsFrame, transition="slide-right")
 
     def filter_exercises(self):
         query = self.search_var.get().strip().lower()
