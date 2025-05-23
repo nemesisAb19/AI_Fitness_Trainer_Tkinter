@@ -181,12 +181,14 @@ class StreamingFrame(tk.Frame):
             self.record_btn.config(text="⏺️ Record")
             messagebox.showinfo("Recording Stopped", "Recording saved!")
 
-    def set_exercise(self, generator_func, gif_path, tips_text, exercise_type):
+    # def set_exercise(self, generator_func, gif_path, tips_text, exercise_type):
         # Reset layout to ensure consistency
         # self.reset_layout()
 
         # Clear the current layout
         # self.clear_layout()
+    
+    def set_exercise(self, generator_func, gif_path):
 
         self.stream_generator = generator_func()
 
@@ -197,7 +199,7 @@ class StreamingFrame(tk.Frame):
         self.update_gif()
 
         # Update the tips text
-        self.tips_label.config(text=tips_text)
+        # self.tips_label.config(text=tips_text)
         # if exercise_type == "bicep_curls":
         #     self.setup_bicep_curl_layout(tips_text)
         # elif exercise_type == "squats":

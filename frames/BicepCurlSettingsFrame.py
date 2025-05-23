@@ -75,37 +75,37 @@ class BicepCurlSettingsFrame(tk.Frame):
         )
         # self.controller.frames[StreamingFrame].set_exercise(exercise.bicep_curls)
         # Dynamically select the exercise based on the exercise_type attribute
-        # if self.exercise_type == "bicep_curls":
-        #     self.controller.frames[StreamingFrame].set_exercise(exercise.bicep_curls, "assets/bicep_curl.gif")
+        if self.exercise_type == "bicep_curls":
+            self.controller.frames[StreamingFrame].set_exercise(exercise.bicep_curls, "assets/bicep_curl.gif")
         # elif self.exercise_type == "squats":
         #     self.controller.frames[StreamingFrame].set_exercise(exercise.squats, "assets/gif_squats_men.gif")
 
-        if self.exercise_type == "bicep_curls":
-            self.controller.frames[StreamingFrame].set_exercise(
-                exercise.bicep_curls,
-                "assets/bicep_curl.gif",
-                (
-                    "💪 Bicep Curl Form Tips:\n"
-                    "- Keep elbows close to your torso.\n"
-                    "- Use full range of motion.\n"
-                    "- Avoid swinging your body.\n"
-                    "- Controlled movement only.\n"
-                    "- Exhale up, inhale down."
-                ),
-                "bicep_curls"
-            )
-        elif self.exercise_type == "squats":
-            self.controller.frames[StreamingFrame].set_exercise(
-                exercise.squats,
-                "assets/gif_squats_men.gif",
-                (
-                    "🏋️ Squats Form Tips:\n"
-                    "- Keep your back straight.\n"
-                    "- Push your hips back as you lower.\n"
-                    "- Keep your knees behind your toes.\n"
-                    "- Engage your core throughout.\n"
-                    "- Exhale up, inhale down."
-                ),
-                "squats"
-            )
+        # if self.exercise_type == "bicep_curls":
+        #     self.controller.frames[StreamingFrame].set_exercise(
+        #         exercise.bicep_curls,
+        #         "assets/bicep_curl.gif",
+        #         (
+        #             "💪 Bicep Curl Form Tips:\n"
+        #             "- Keep elbows close to your torso.\n"
+        #             "- Use full range of motion.\n"
+        #             "- Avoid swinging your body.\n"
+        #             "- Controlled movement only.\n"
+        #             "- Exhale up, inhale down."
+        #         ),
+        #         "bicep_curls"
+        #     )
+        # elif self.exercise_type == "squats":
+        #     self.controller.frames[StreamingFrame].set_exercise(
+        #         exercise.squats,
+        #         "assets/gif_squats_men.gif",
+        #         (
+        #             "🏋️ Squats Form Tips:\n"
+        #             "- Keep your back straight.\n"
+        #             "- Push your hips back as you lower.\n"
+        #             "- Keep your knees behind your toes.\n"
+        #             "- Engage your core throughout.\n"
+        #             "- Exhale up, inhale down."
+        #         ),
+        #         "squats"
+        #     )
         self.controller.show_frame(StreamingFrame, transition="slide-left")
