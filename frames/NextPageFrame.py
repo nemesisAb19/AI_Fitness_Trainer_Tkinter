@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw
 from frames.WorkoutsFrame import WorkoutsFrame
+from frames.BuildYourWorkout import BuildYourWorkout
 
 class NextPageFrame(tk.Frame):
     def __init__(self, parent, controller):
@@ -88,8 +89,11 @@ class NextPageFrame(tk.Frame):
         canvas.bind("<Enter>", on_enter)
         canvas.bind("<Leave>", on_leave)
 
-        # 🟢 Navigate on click if title is "Workouts"
+        # 🟢 Navigate on click
         if title == "Workouts":
             canvas.bind("<Button-1>", lambda e: self.controller.show_frame(WorkoutsFrame, transition="slide-right"))
+
+        elif title == "Build Your Own Workout":
+            canvas.bind("<Button-1>", lambda e: self.controller.show_frame(BuildYourWorkout, transition="slide-right"))
 
         return canvas

@@ -6,6 +6,7 @@ from frames.WorkoutsFrame import WorkoutsFrame
 from frames.BicepCurlSettingsFrame import BicepCurlSettingsFrame
 from frames.StreamingFrame import StreamingFrame
 from frames.SquatsStreamingFrame import SquatsStreamingFrame
+from frames.BuildYourWorkout import BuildYourWorkout
 
 class App(tk.Tk):
     def __init__(self):
@@ -22,7 +23,7 @@ class App(tk.Tk):
         self.current_frame = None
 
         # Add all frames, including PoseDetectionFrame
-        for FrameClass in (ExerciseFrame, NextPageFrame, WorkoutsFrame, BicepCurlSettingsFrame, StreamingFrame, SquatsStreamingFrame):
+        for FrameClass in (ExerciseFrame, NextPageFrame, WorkoutsFrame, BicepCurlSettingsFrame, StreamingFrame, SquatsStreamingFrame, BuildYourWorkout):
             frame = FrameClass(self.container, self)
             self.frames[FrameClass] = frame
             # Do not pack or place here — handled during transition
