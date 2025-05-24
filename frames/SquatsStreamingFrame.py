@@ -2,12 +2,11 @@ import tkinter as tk
 from PIL import Image, ImageTk, ImageSequence
 import cv2
 import numpy as np
-import os
 from tkinter import messagebox
 from datetime import datetime
 
 
-class StreamingFrame(tk.Frame):
+class SquatsStreamingFrame(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent, bg="#121212")
         self.controller = controller
@@ -35,7 +34,7 @@ class StreamingFrame(tk.Frame):
         back_img = Image.open("assets/prev-icon.png").resize((40, 30))
         self.back_icon = ImageTk.PhotoImage(back_img)
         back_btn = tk.Label(control_panel, image=self.back_icon, bg="#1e1e1e", cursor="hand2")
-        back_btn.pack(side="left", padx=10)        
+        back_btn.pack(side="left", padx=10)
         back_btn.bind("<Button-1>", lambda e: controller.show_frame(BicepCurlSettingsFrame))
 
         # Fullscreen Button
@@ -46,20 +45,25 @@ class StreamingFrame(tk.Frame):
         self.record_btn = tk.Button(control_panel, text="⏺️ Record", font=("Arial", 11), command=self.toggle_recording)
         self.record_btn.pack(side="left", padx=10)
 
-        gif = Image.open("assets/bicep_curl.gif")
-        self.gif_frames = [ImageTk.PhotoImage(frame.copy().convert("RGBA")) for frame in ImageSequence.Iterator(gif)]
+        # Load and resize the Squats GIF
+        gif = Image.open("assets/squats.gif")
+        self.gif_frames = [
+            ImageTk.PhotoImage(frame.copy().resize((640, 425), Image.Resampling.LANCZOS).convert("RGBA"))
+            for frame in ImageSequence.Iterator(gif)
+        ]
         self.gif_label = tk.Label(self, bg="#121212")
         self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
         self.current_gif_frame = 0
         self.update_gif()
 
+        # Squats Tips
         tips_text = (
-            "💪 Bicep Curl Form Tips:\n"
-            "- Keep elbows close to your torso.\n"
-            "- Use full range of motion.\n"
-            "- Avoid swinging your body.\n"
-            "- Controlled movement only.\n"
-            "- Exhale up, inhale down."
+            "🏋️ Squats Form Tips:\n"
+            "- Keep feet shoulder-width apart.\n"
+            "- Push hips back, not knees forward.\n"
+            "- Keep chest lifted and spine neutral.\n"
+            "- Go at least to parallel (90° knees).\n"
+            "- Exhale when standing back up."
         )
         self.tips_label = tk.Label(
             self, text=tips_text, font=("Arial", 12), fg="#ffffff", bg="#1e1e1e",
@@ -69,28 +73,23 @@ class StreamingFrame(tk.Frame):
 
     def toggle_video_fullscreen(self):
         if not self.video_fullscreen:
-            # === ENTER FULLSCREEN ===
             self.gif_label.grid_remove()
             self.tips_label.grid_remove()
 
             self.video_label.pack_forget()
             self.video_label.pack(expand=True, fill="both", padx=0, pady=0)
 
-            # Expand video across the whole width
             self.video_container.grid_forget()
             self.video_container.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=0, pady=0)
 
             self.video_fullscreen = True
         else:
-            # === EXIT FULLSCREEN: Restore full layout ===
             self.video_label.pack_forget()
             self.video_label.pack(expand=True, fill="both")
 
-            # Restore original video grid layout
             self.video_container.grid_forget()
             self.video_container.grid(row=0, column=0, sticky='nsew', padx=20, pady=(20, 5))
 
-            # Restore GIF and tips
             self.gif_label.grid(row=0, column=1, rowspan=2, sticky='nsew', padx=20, pady=20)
             self.tips_label.grid(row=2, column=1, sticky="nsew", padx=20, pady=(0, 20))
 
@@ -110,14 +109,15 @@ class StreamingFrame(tk.Frame):
                 self.out = None
             self.record_btn.config(text="⏺️ Record")
             messagebox.showinfo("Recording Stopped", "Recording saved!")
-    
-    def set_exercise(self, generator_func, gif_path):
 
+    def set_exercise(self, generator_func, gif_path):
         self.stream_generator = generator_func()
 
-        # Load the appropriate GIF
         gif = Image.open(gif_path)
-        self.gif_frames = [ImageTk.PhotoImage(frame.copy().convert("RGBA")) for frame in ImageSequence.Iterator(gif)]
+        self.gif_frames = [
+            ImageTk.PhotoImage(frame.copy().resize((640, 425), Image.Resampling.LANCZOS).convert("RGBA"))
+            for frame in ImageSequence.Iterator(gif)
+        ]
         self.current_gif_frame = 0
         self.update_gif()
         self.update_stream()
