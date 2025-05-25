@@ -14,12 +14,14 @@ class BuildYourWorkout(tk.Frame):
 
         self.logo = ImageTk.PhotoImage(Image.open("assets/befit-logo-white.png").resize((150, 80)))
         self.back_icon = ImageTk.PhotoImage(Image.open("assets/prev-icon.png").resize((120, 80)))
-        self.start_icon = ImageTk.PhotoImage(Image.open("assets/start-button-2.png").resize((160, 90)))
+        self.start_icon = ImageTk.PhotoImage(Image.open("assets/start-button-2-white.png").resize((160, 90)))
 
         tk.Label(self, image=self.logo, bg="#121212").place(relx=0.5, y=20, anchor="n")
 
         back_btn = tk.Label(self, image=self.back_icon, bg="#121212", cursor="hand2")
         back_btn.place(x=20, y=20)
+        back_btn.bind("<Enter>", lambda e: back_btn.config(bg="#1a1a1a"))
+        back_btn.bind("<Leave>", lambda e: back_btn.config(bg="#121212"))
         back_btn.bind("<Button-1>", lambda e: controller.show_frame(NextPageFrame))
 
         self.selected_frame = Frame(self, bg="#121212")
@@ -120,7 +122,7 @@ class BuildYourWorkout(tk.Frame):
         self.search_entry.place_configure(y=new_y + 40)
         self.canvas.master.place_configure(y=new_y + 100)
         if self.selected_exercises:
-            self.start_btn.place(x=self.winfo_width() - 180, y=selected_y + 10)
+            self.start_btn.place(x=self.winfo_width() - 250, y=selected_y + 10)
         else:
             self.start_btn.place_forget()
 
