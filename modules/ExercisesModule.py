@@ -65,6 +65,15 @@ class SimulateTargetExercises:
         detector = pm.posture_detector()
         speaker = AudioFeedbackSystem()
 
+        # Pre-exercise message
+        start_message = "Bicep Curl Exercise is starting"
+        speaker.say(start_message)
+
+        for _ in range(90):  # Display the message for ~3 seconds (30 FPS)
+            img = np.zeros((720, 1280, 3), dtype=np.uint8)  # Black screen
+            cv2.putText(img, start_message, (300, 360), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
+            yield utils._yield_image_frame(img)
+
         for current_set in range(1, self.sets + 1):
             print(f"Set {current_set}/{self.sets}")
             count, direction = 0, 0
@@ -85,7 +94,7 @@ class SimulateTargetExercises:
 
                     angle = detector.find_angle(img, 12, 14, 16)
                     per = np.interp(angle, (50, 160), (0, 100))
-                    bar_pos = np.interp(per, (0, 100), (650, 100)) # Calculate bar position
+                    bar_pos = np.interp(per, (0, 100), (650, 100))  # Calculate bar position
                     color = utils.get_performance_bar_color(per)
 
                     if per in [0, 100]:
@@ -97,8 +106,8 @@ class SimulateTargetExercises:
                             self.count = rep_data["count"]
                             speaker.say(f"{self.count}")
 
-                    utils.display_rep_count(img, count, total_reps)     # Reps displayed first
-                    utils.draw_performance_bar(img, per, bar_pos, color, count)               # Then bar displayed
+                    utils.display_rep_count(img, count, total_reps)  # Reps displayed first
+                    utils.draw_performance_bar(img, per, bar_pos, color, count)  # Then bar displayed
 
                 yield utils._yield_image_frame(img)
 
@@ -132,6 +141,15 @@ class SimulateTargetExercises:
         cap = cv2.VideoCapture(0)
         detector = pm.posture_detector()
         speaker = AudioFeedbackSystem()
+
+        # Pre-exercise message
+        start_message = "Squats Exercise is starting"
+        speaker.say(start_message)
+
+        for _ in range(90):  # Display the message for ~3 seconds (30 FPS)
+            img = np.zeros((720, 1280, 3), dtype=np.uint8)  # Black screen
+            cv2.putText(img, start_message, (300, 360), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
+            yield utils._yield_image_frame(img)
 
         for current_set in range(1, self.sets + 1):
             print(f"Set {current_set}/{self.sets}")

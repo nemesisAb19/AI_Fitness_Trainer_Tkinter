@@ -7,6 +7,8 @@ from frames.BicepCurlSettingsFrame import BicepCurlSettingsFrame
 from frames.StreamingFrame import StreamingFrame
 from frames.SquatsStreamingFrame import SquatsStreamingFrame
 from frames.BuildYourWorkout import BuildYourWorkout
+from frames.CustomizeSettings import CustomizeSettings
+from frames.CustomizeStreamingFrame import CustomizeStreamingFrame
 
 class App(tk.Tk):
     def __init__(self):
@@ -22,8 +24,8 @@ class App(tk.Tk):
         self.transition_manager = TransitionManager(self, self.container)
         self.current_frame = None
 
-        # Add all frames, including PoseDetectionFrame
-        for FrameClass in (ExerciseFrame, NextPageFrame, WorkoutsFrame, BicepCurlSettingsFrame, StreamingFrame, SquatsStreamingFrame, BuildYourWorkout):
+        # Add all frames
+        for FrameClass in (ExerciseFrame, NextPageFrame, WorkoutsFrame, BicepCurlSettingsFrame, StreamingFrame, SquatsStreamingFrame, BuildYourWorkout, CustomizeSettings, CustomizeStreamingFrame):
             frame = FrameClass(self.container, self)
             self.frames[FrameClass] = frame
             # Do not pack or place here — handled during transition
